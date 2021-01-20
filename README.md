@@ -3,13 +3,13 @@
 Really simple Mock API server.
 
 ## Usage
-We PUT to an endpoint using a specific JSON object: "StatusCode", "HttpMethod", "ResponseBody".
-Then if we 'GET' or 'POST' the same endpoint, the 'StatusCode' and ResponseBody' will be returned.
-A session Id can be used to facilitate parallel use (optionally a Guid string).
+We PUT to an endpoint using a specific JSON object: "StatusCode", "HttpMethod", "ResponseBody".</br>
+Then if we 'GET' or 'POST' the same endpoint, the 'StatusCode' and ResponseBody' will be returned.</br>
+A session Id can be used to facilitate parallel use (optionally a Guid string).</br>
 
 ## Example
-In Postman (or equivalent):
-Where (for example):
+In Postman (or equivalent):</br>
+Where (for example):</br>
   Server = https://localhost:5001/
   SessionId = 000000-0000-0000-0000-000000000001/
 
@@ -37,6 +37,6 @@ We should get the StatusCode/ResponseBody sent back.
 }
 
 ## Notes
-Currently, 'ResponseCache' saves the reponses in memory - not very persistent.
-Uses 'System.text.Json' which seems to like all JSON properties to be quoted.
-There are no unit tests! All the logic is in the middleware so I'll have to resarch testing that.
+Currently, 'ResponseCache' saves the reponses in memory - not very persistent.</br>
+Uses 'System.text.Json' which seems to like all JSON properties to be quoted.</br>
+There are no unit tests! All the logic is in the middleware so I'll have to resarch testing that.</br>
