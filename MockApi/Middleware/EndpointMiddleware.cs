@@ -20,7 +20,7 @@ namespace MockApi.Middleware
             var methodPlusPath = $"{context.Request.Method}{context.Request.Path}";
             if (!_responseCache.ContainsResponse(methodPlusPath))
             {
-                context.Response.StatusCode = 404;
+                context.Response.StatusCode = StatusCodes.Status404NotFound;
                 await context.Response.WriteAsync($"Cannot find response for: {methodPlusPath}");
                 return;
             }

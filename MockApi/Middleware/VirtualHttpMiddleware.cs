@@ -30,7 +30,7 @@ namespace MockApi.Middleware
                 var methodPlusPath = $"{virtualResponse?.HttpMethod}{context.Request.Path}";
 
                 _responseCache.SetResponse(methodPlusPath, virtualResponse);
-                context.Response.StatusCode = 200;
+                context.Response.StatusCode = StatusCodes.Status200OK;
                 return;
             }
 
