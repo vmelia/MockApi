@@ -10,9 +10,11 @@ A session Id can be used to facilitate parallel use (optionally a Guid string).<
 ## Example
 In Postman (or equivalent):</br>
 Where (for example):</br>
+```
   Server = https://localhost:5001/
   SessionId = 000000-0000-0000-0000-000000000001/
-
+```
+```
 PUT {{Server}}{{SessionId}}dummy_endpoint
 Body (raw) =
 {
@@ -24,10 +26,11 @@ Body (raw) =
         }
     }
 }
+```
 
-Then, if we call: {{Server}}{{SessionId}}dummy_endpoint
-
+Then, if we call: {{Server}}{{SessionId}}dummy_endpoint</br>
 We should get the StatusCode/ResponseBody sent back.
+```
 201-Created
 {
   "get_stuff": {
@@ -35,7 +38,7 @@ We should get the StatusCode/ResponseBody sent back.
     "value": 99
   }
 }
-
+```
 ## Notes
 Currently, 'ResponseCache' saves the reponses in memory - not very persistent.</br>
 Uses 'System.text.Json' which seems to like all JSON properties to be quoted.</br>
