@@ -9,7 +9,6 @@ namespace MockApi.Middleware
 {
     public class VirtualHttpMiddleware
     {
-        private const string _virtualToken = @"VirtualHttp";
         private readonly RequestDelegate _next;
         private readonly IResponseCache _responseCache;
 

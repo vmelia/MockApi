@@ -7,7 +7,7 @@ namespace MockApi.Middleware
 {
     public class EndpointMiddleware
     {
-        private JsonSerializerOptions _jsonOptions = new JsonSerializerOptions { WriteIndented = true };
+        private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions { WriteIndented = true };
         private readonly IResponseCache _responseCache;
 
         public EndpointMiddleware(RequestDelegate _, IResponseCache responseCache)
@@ -21,8 +21,8 @@ namespace MockApi.Middleware
             if (!_responseCache.ContainsResponse(methodPlusPath))
             {
                 context.Response.StatusCode = 404;
-                await context.Response.WriteAsync(
-                    $"Cannot find response for: {methodPlusPath}");
+                await context.Response.WriteAsync($"Cannot find response for: {methodPlusPath}");
+                return;
             }
 
             var virtualResponse = _responseCache.GetResponse(methodPlusPath);
