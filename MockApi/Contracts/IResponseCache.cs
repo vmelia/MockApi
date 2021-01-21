@@ -4,8 +4,9 @@ namespace MockApi.Contracts
 {
     public interface IResponseCache
     {
-        void SetResponse(string methodPlusPath, VirtualResponse response);
-        bool ContainsResponse(string methodPlusPath);
-        VirtualResponse GetResponse(string methodPlusPath);
+        string CalculateKey(string method, string path);
+        void SetResponse(string key, VirtualResponse response);
+        bool ContainsResponse(string key);
+        VirtualResponse GetResponse(string key);
     }
 }

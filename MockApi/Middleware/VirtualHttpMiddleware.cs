@@ -27,9 +27,9 @@ namespace MockApi.Middleware
 
                 var body = await new StreamReader(context.Request.Body).ReadToEndAsync();
                 var virtualResponse = JsonSerializer.Deserialize<VirtualResponse>(body);
-                var methodPlusPath = $"{virtualResponse?.HttpMethod}{context.Request.Path}";
+                var key = _responseCache.CalculateKey(virtualResponse?.HttpMethod, context.Request.Path);
 
-                _responseCache.SetResponse(methodPlusPath, virtualResponse);
+                _responseCache.SetResponse(key, virtualResponse);
                 context.Response.StatusCode = StatusCodes.Status200OK;
                 return;
             }

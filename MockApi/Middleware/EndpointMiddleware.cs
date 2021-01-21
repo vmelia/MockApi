@@ -17,15 +17,15 @@ namespace MockApi.Middleware
 
         public async Task Invoke(HttpContext context)
         {
-            var methodPlusPath = $"{context.Request.Method}{context.Request.Path}";
-            if (!_responseCache.ContainsResponse(methodPlusPath))
+            var key = _responseCache.CalculateKey(context.Request.Method, context.Request.Path);
+            if (!_responseCache.ContainsResponse(key))
             {
                 context.Response.StatusCode = StatusCodes.Status404NotFound;
-                await context.Response.WriteAsync($"Cannot find response for: {methodPlusPath}");
+                await context.Response.WriteAsync($"Cannot find response for: {key}");
                 return;
             }
 
-            var virtualResponse = _responseCache.GetResponse(methodPlusPath);
+            var virtualResponse = _responseCache.GetResponse(key);
             context.Response.StatusCode = virtualResponse.StatusCode;
 
             var responseBody = JsonSerializer.Serialize(virtualResponse.ResponseBody, _jsonOptions);

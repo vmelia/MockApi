@@ -8,19 +8,24 @@ namespace MockApi.Services
     {
         private readonly IDictionary<string, VirtualResponse> _cache = new Dictionary<string, VirtualResponse>();
 
-        public void SetResponse(string methodPlusPath, VirtualResponse response)
+        public string CalculateKey(string method, string path)
         {
-            _cache[methodPlusPath] = response;
+            return $"{method}{path}";
         }
 
-        public bool ContainsResponse(string methodPlusPath)
+        public void SetResponse(string key, VirtualResponse response)
         {
-            return _cache.ContainsKey(methodPlusPath);
+            _cache[key] = response;
         }
 
-        public VirtualResponse GetResponse(string methodPlusPath)
+        public bool ContainsResponse(string key)
         {
-            return _cache[methodPlusPath];
+            return _cache.ContainsKey(key);
+        }
+
+        public VirtualResponse GetResponse(string key)
+        {
+            return _cache[key];
         }
     }
 }
