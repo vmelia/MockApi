@@ -9,6 +9,8 @@ namespace MockApi.Services
 {
     public class HttpHelper : IHttpHelper
     {
+        private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions { WriteIndented = true };
+
         public bool IsVirtualHttpMethod(string method)
         {
             return method.ToUpper() == "PUT";
@@ -24,6 +26,12 @@ namespace MockApi.Services
         {
             context.Response.StatusCode = statusCode;
             await context.Response.WriteAsync(body);
+        }
+
+        public async Task WriteResponse(HttpContext context, int statusCode, VirtualResponse response)
+        {
+            var body = JsonSerializer.Serialize(response.ResponseBody, _jsonOptions);
+            await WriteResponse(context, statusCode, body);
         }
 
         private async Task<string> ReadFromStream(Stream stream)

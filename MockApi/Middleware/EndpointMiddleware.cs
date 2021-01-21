@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using MockApi.Contracts;
 using System.Threading.Tasks;
 
@@ -7,7 +6,6 @@ namespace MockApi.Middleware
 {
     public class EndpointMiddleware
     {
-        private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions { WriteIndented = true };
         private readonly IResponseCache _responseCache;
         private readonly IHttpHelper _httpHelper;
 
@@ -27,8 +25,7 @@ namespace MockApi.Middleware
             }
 
             var response = _responseCache.GetResponse(key);
-            var responseBody = JsonSerializer.Serialize(response.ResponseBody, _jsonOptions);
-            await _httpHelper.WriteResponse(context, response.StatusCode, responseBody);
+            await _httpHelper.WriteResponse(context, response.StatusCode, response);
         }
     }
 }

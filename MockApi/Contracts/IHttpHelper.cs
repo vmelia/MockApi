@@ -10,5 +10,6 @@ namespace MockApi.Contracts
         bool IsVirtualHttpMethod(string method);
         Task<VirtualResponse> GetResponse(Stream stream);
         Task WriteResponse(HttpContext context, int statusCode, string body);
+        Task WriteResponse(HttpContext context, int statusCode, VirtualResponse body);
     }
 }
