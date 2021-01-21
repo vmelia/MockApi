@@ -1,9 +1,6 @@
-﻿using System.IO;
-using System.Text.Json;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using MockApi.Contracts;
-using MockApi.Model;
 
 namespace MockApi.Middleware
 {
@@ -11,25 +8,23 @@ namespace MockApi.Middleware
     {
         private readonly RequestDelegate _next;
         private readonly IResponseCache _responseCache;
+        private readonly IHttpHelper _httpHelper;
 
-        public VirtualHttpMiddleware(RequestDelegate next, IResponseCache responseCache)
+        public VirtualHttpMiddleware(RequestDelegate next, IResponseCache responseCache, IHttpHelper httpHelper)
         {
             _next = next;
             _responseCache = responseCache;
+            _httpHelper = httpHelper;
         }
 
         public async Task Invoke(HttpContext context)
         {
-            if (context.Request.Method == "PUT")
+            if (_httpHelper.IsVirtualHttpMethod(context.Request.Method))
             {
-                if (context.Request.Body.CanSeek)
-                    context.Request.Body.Position = 0;
+                var response = await _httpHelper.GetResponse(context.Request.Body);
+                var key = _responseCache.CalculateKey(response?.HttpMethod, context.Request.Path);
 
-                var body = await new StreamReader(context.Request.Body).ReadToEndAsync();
-                var virtualResponse = JsonSerializer.Deserialize<VirtualResponse>(body);
-                var key = _responseCache.CalculateKey(virtualResponse?.HttpMethod, context.Request.Path);
-
-                _responseCache.SetResponse(key, virtualResponse);
+                _responseCache.SetResponse(key, response);
                 context.Response.StatusCode = StatusCodes.Status200OK;
                 return;
             }

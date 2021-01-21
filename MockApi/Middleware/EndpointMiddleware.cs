@@ -9,10 +9,12 @@ namespace MockApi.Middleware
     {
         private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions { WriteIndented = true };
         private readonly IResponseCache _responseCache;
+        private readonly IHttpHelper _httpHelper;
 
-        public EndpointMiddleware(RequestDelegate _, IResponseCache responseCache)
+        public EndpointMiddleware(RequestDelegate _, IResponseCache responseCache, IHttpHelper httpHelper)
         {
             _responseCache = responseCache;
+            _httpHelper = httpHelper;
         }
 
         public async Task Invoke(HttpContext context)
@@ -20,16 +22,13 @@ namespace MockApi.Middleware
             var key = _responseCache.CalculateKey(context.Request.Method, context.Request.Path);
             if (!_responseCache.ContainsResponse(key))
             {
-                context.Response.StatusCode = StatusCodes.Status404NotFound;
-                await context.Response.WriteAsync($"Cannot find response for: {key}");
+                await _httpHelper.WriteResponse(context, StatusCodes.Status404NotFound, $"Cannot find response for: {key}");
                 return;
             }
 
-            var virtualResponse = _responseCache.GetResponse(key);
-            context.Response.StatusCode = virtualResponse.StatusCode;
-
-            var responseBody = JsonSerializer.Serialize(virtualResponse.ResponseBody, _jsonOptions);
-            await context.Response.WriteAsync(responseBody);
+            var response = _responseCache.GetResponse(key);
+            var responseBody = JsonSerializer.Serialize(response.ResponseBody, _jsonOptions);
+            await _httpHelper.WriteResponse(context, response.StatusCode, responseBody);
         }
     }
 }
