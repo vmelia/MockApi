@@ -34,7 +34,7 @@ namespace MockApi.Services
             await WriteResponse(context, statusCode, body);
         }
 
-        private async Task<string> ReadFromStream(Stream stream)
+        private static async Task<string> ReadFromStream(Stream stream)
         {
             if (stream.CanSeek)
                 stream.Position = 0;
