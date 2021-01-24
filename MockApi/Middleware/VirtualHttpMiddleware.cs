@@ -19,7 +19,7 @@ namespace MockApi.Middleware
 
         public async Task Invoke(HttpContext context)
         {
-            if (_httpHelper.IsVirtualHttpMethod(context.Request.Method))
+            if (_responseCache.IsVirtualHttpMethod(context.Request.Method))
             {
                 var response = await _httpHelper.GetResponse(context.Request.Body);
                 var key = _responseCache.CalculateKey(response?.HttpMethod, context.Request.Path);

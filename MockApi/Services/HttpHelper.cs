@@ -11,11 +11,6 @@ namespace MockApi.Services
     {
         private readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions { WriteIndented = true };
 
-        public bool IsVirtualHttpMethod(string method)
-        {
-            return method.ToUpper() == "PUT";
-        }
-
         public async Task<VirtualResponse> GetResponse(Stream stream)
         {
             var body = await ReadFromStream(stream);

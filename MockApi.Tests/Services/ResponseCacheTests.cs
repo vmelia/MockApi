@@ -4,7 +4,7 @@ using MockApi.Model;
 using MockApi.Services;
 using Xunit;
 
-namespace MockApi.Tests
+namespace MockApi.Tests.Services
 {
     public class ResponseCacheTests
     {
@@ -15,6 +15,27 @@ namespace MockApi.Tests
             _responseCache = new ResponseCache();
         }
 
+        [Theory]
+        [InlineData("POST")]
+        [InlineData("GET")]
+        public void IsVirtualHttpMethod_WhenMethodIsNotPut_ReturnsTrue(string method)
+        {
+            var result = _responseCache.IsVirtualHttpMethod(method);
+
+            Assert.False(result);
+        }
+
+        [Theory]
+        [InlineData("PUT")]
+        [InlineData("Put")]
+        [InlineData("put")]
+        public void IsVirtualHttpMethod_WhenMethodIsPut_ReturnsTrue(string method)
+        {
+            var result = _responseCache.IsVirtualHttpMethod(method);
+
+            Assert.True(result);
+        }
+        
         [Fact]
         public void CalculateKey_WhenExecuted_ReturnsMethodPlusPath()
         {

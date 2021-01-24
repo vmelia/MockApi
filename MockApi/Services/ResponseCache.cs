@@ -8,6 +8,11 @@ namespace MockApi.Services
     {
         private readonly IDictionary<string, VirtualResponse> _cache = new Dictionary<string, VirtualResponse>();
 
+        public bool IsVirtualHttpMethod(string method)
+        {
+            return method.ToUpper() == "PUT";
+        }
+        
         public string CalculateKey(string method, string path)
         {
             return $"{method}{path}";
