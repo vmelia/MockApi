@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using MockApi.Middleware;
 using MockApi.Model;
 using Moq;
