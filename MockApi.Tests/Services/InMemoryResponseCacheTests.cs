@@ -12,7 +12,7 @@ namespace MockApi.Tests.Services
 
         public ResponseCacheTests()
         {
-            _responseCache = new ResponseCache();
+            _responseCache = new InMemoryResponseCache();
         }
 
         [Theory]

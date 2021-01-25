@@ -4,7 +4,7 @@ using MockApi.Model;
 
 namespace MockApi.Services
 {
-    public class ResponseCache : IResponseCache
+    public class InMemoryResponseCache : IResponseCache
     {
         private readonly IDictionary<string, VirtualResponse> _cache = new Dictionary<string, VirtualResponse>();
 
