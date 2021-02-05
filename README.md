@@ -47,4 +47,5 @@ We should get the StatusCode/ResponseBody sent back.
 ```
 ## Notes
 Currently, 'ResponseCache' saves the reponses in memory - not very persistent.</br>
+It cannot cache a 'PUT' response - I can live with that.</br>
 Uses 'System.Text.Json' which seems to like all JSON properties to be quoted.</br>
